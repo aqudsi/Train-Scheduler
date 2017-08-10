@@ -54,12 +54,12 @@ $('#btn-submit').on("click",function(event){
 	destination = $('#destination').val().trim();
 	frequency = $('#frequency').val().trim();
 	trainTime = $('#train-time').val().trim();
-	nextTrain();
+   nextTrain();
 
 	
 
 		database.ref().push({
-		train: trainName,
+		trainName: trainName,
 		destination: destination,
 		frequency: frequency,
 		nextArrival: nextArrival,
@@ -67,9 +67,30 @@ $('#btn-submit').on("click",function(event){
 
 	});
 
-//calculates when the next train will come, and how many minutes away it is
-	
-		$(".table").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + 
-	frequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>")
+  $("#train-name").val("");
+  $("#destination").val("");
+  $("#train-time").val("");
+  $("#frequency").val("");
 
+//calculates when the next train will come, and how many minutes away it is
+
+
+	
+
+
+});
+
+database.ref().on("child_added", function(snapshot, prevChildKey) {
+
+  console.log(snapshot.val());
+ 
+
+    var DBtrainName = snapshot.val().trainName;
+    var DBdestination = snapshot.val().destination;
+    var DBfrequency = snapshot.val().frequency;
+    var DBnextArrival = snapshot.val().nextArrival;
+    var DBminutesAway = snapshot.val().minutesAway
+
+      $(".table").append("<tr><td>" + DBtrainName + "</td><td>" + DBdestination + "</td><td>" + 
+  DBfrequency + "</td><td>" + DBnextArrival + "</td><td>" + DBminutesAway + "</td></tr>")
 });
